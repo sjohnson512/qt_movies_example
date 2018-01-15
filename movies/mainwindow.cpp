@@ -70,13 +70,27 @@ MainWindow::~MainWindow()
 
 void MainWindow::addMovie()
 {
-//    QString title = ui->lineTitle->text();
-//    int actorListID = 1;
-//    int genreID = 1;
-//    int year = ui->spinboxYear->value();
-//    double rating = ui->doubleSpinRating->value();
+    // Default data for the new movie
+    QString title("NewMovie");
+    int year = 2018;
+    int genreId = 1;
+    QString genre("Action");
+    double rating = 2.5;
 
-//    m_dbInterface.insertMovie(title,actorListID, genreID, year, rating);
+    // Insert a new movie record in the database
+    int movieId = m_dbInterface.insertMovie(title, genreId, year, rating);
+
+    // Add the new movie to the movie tree view
+    QTreeWidgetItem *movieItem = new QTreeWidgetItem(ui->treeMovies);
+    movieItem->setText(MOVIE_ID_COL, QString::number(movieId));
+    movieItem->setText(MOVIE_TITLE_COL, title);
+    movieItem->setText(MOVIE_YEAR_COL, QString::number(year));
+    movieItem->setText(MOVIE_GENRE_COL, genre);
+    movieItem->setText(MOVIE_RATING_COL, QString::number(rating));
+
+    // Select the newly created movie in the tree view so the user can edit it
+    int numItems = ui->treeMovies->topLevelItemCount();
+    ui->treeMovies->setCurrentItem(ui->treeMovies->topLevelItem(numItems-1));
 }
 
 void MainWindow::refreshActorsList(int movieID)
@@ -92,9 +106,6 @@ void MainWindow::refreshActorsList(int movieID)
 
 void MainWindow::refreshMovies()
 {
-
-    ui->treeMovies->currentIndex();
-
     ui->treeMovies->clear();
 
     QList<MovieData> movieList = m_dbInterface.getMovies();
@@ -111,7 +122,7 @@ void MainWindow::refreshMovies()
         int movieId= movieData.id;
         QStringList actorList = m_dbInterface.getActorsForMovie(movieId);
         QString actors = actorList.join(", ");
-        movieItem->setText(4, actors);
+        movieItem->setText(MOVIE_ACTORS_COL, actors);
     }
 }
 

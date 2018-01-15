@@ -1,3 +1,6 @@
+-- Create a new movie database and populate it with sample data
+-- Usage: sqlite3 movies.db < movies.sql
+
 CREATE TABLE movie(
    id            INTEGER PRIMARY KEY NOT NULL,
    genre_id      INTEGER,

@@ -96,16 +96,17 @@ QList<MovieData> DBInterface::getMovies()
     return movieList;
 }
 
-int DBInterface::insertMovie(const QString& title, int actorListID, int genreID, int year, double rating)
+int DBInterface::insertMovie(const QString& title, int genreID, int year, double rating)
 {
-    QSqlQuery query("INSERT INTO movie(title, actor_list_id, genre_id, year, rating) "
-                    "values(:title,:actor_list_id,:genre_id,:year,:rating");
+    QSqlQuery query;
+    query.prepare("INSERT INTO movie(title, genre_id, year, rating) "
+                    "values(:title, :genre_id, :year, :rating)");
     query.bindValue(":title", title);
-    query.bindValue(":actor_list_id", actorListID);
     query.bindValue(":genre_id", genreID);
     query.bindValue(":year", year);
     query.bindValue(":rating", rating);
-    query.exec();
+    if (!query.exec())
+        qDebug() << query.lastError().text();
 
     return query.lastInsertId().toInt();
 }
@@ -125,5 +126,6 @@ void DBInterface::updateMovie(int movieId, const QString &title, int genreId, in
     query.bindValue(":year", year);
     query.bindValue(":rating", rating);
     query.bindValue(":movieID", movieId);
-    query.exec();
+    if (!query.exec())
+        qDebug() << query.lastError().text();
 }
