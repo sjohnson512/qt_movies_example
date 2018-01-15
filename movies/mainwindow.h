@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <dbinterface.h>
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    DBInterface m_dbInterface;
+    int m_currentMovieID;
+
+
 };
 
 #endif // MAINWINDOW_H

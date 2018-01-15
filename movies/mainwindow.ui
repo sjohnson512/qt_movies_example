@@ -86,7 +86,17 @@
         <widget class="QComboBox" name="comboGenre"/>
        </item>
        <item row="4" column="1">
-        <widget class="QSpinBox" name="spinboxYear"/>
+        <widget class="QSpinBox" name="spinboxYear">
+         <property name="minimum">
+          <number>1700</number>
+         </property>
+         <property name="maximum">
+          <number>4000</number>
+         </property>
+         <property name="value">
+          <number>2018</number>
+         </property>
+        </widget>
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="labelYear">
@@ -103,7 +113,20 @@
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QDoubleSpinBox" name="doubleSpinRating"/>
+        <widget class="QDoubleSpinBox" name="doubleSpinRating">
+         <property name="decimals">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <double>5.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+         <property name="value">
+          <double>4.000000000000000</double>
+         </property>
+        </widget>
        </item>
        <item row="6" column="1">
         <widget class="QListView" name="listActors"/>
