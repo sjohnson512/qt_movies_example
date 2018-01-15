@@ -42,9 +42,12 @@ private:
 
 private slots:
     void addMovie();
-    void updateMovies();
-    void updateMovieDetails(QTreeWidgetItem* currentItem, QTreeWidgetItem* previousItem);
-    void updateActors(int movieID);
+    void refreshMovies();
+    void refreshMovieDetails();
+    void refreshActorsList(int movieID);
+
+    void updateMovie();
+
 
 
 };

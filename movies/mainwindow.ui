@@ -29,7 +29,11 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QTreeWidget" name="treeMovies"/>
+         <widget class="QTreeWidget" name="treeMovies">
+          <property name="autoScroll">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QFrame" name="frameButtons">

@@ -109,3 +109,21 @@ int DBInterface::insertMovie(const QString& title, int actorListID, int genreID,
 
     return query.lastInsertId().toInt();
 }
+
+void DBInterface::updateMovie(int movieId, const QString &title, int genreId, int year, double rating)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE movie "
+                    "SET "
+                    "title = :title, "
+                    "genre_id = :genreId, "
+                    "year = :year, "
+                    "rating = :rating "
+                    "where id = :movieID");
+    query.bindValue(":title", title);
+    query.bindValue(":genreId", genreId);
+    query.bindValue(":year", year);
+    query.bindValue(":rating", rating);
+    query.bindValue(":movieID", movieId);
+    query.exec();
+}
