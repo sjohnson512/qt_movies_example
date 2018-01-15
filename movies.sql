@@ -48,9 +48,9 @@ VALUES
 	
 INSERT INTO cast_member(movie_id, actor_id)
 VALUES
-	(0,0),
-	(0,2),
-	(0,6);
+	(1,1),
+	(1,2),
+	(1,6);
 
 INSERT INTO movie (genre_id, title, year, rating)
 VALUES	

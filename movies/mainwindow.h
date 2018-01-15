@@ -16,10 +16,17 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
 private:
     Ui::MainWindow *ui;
-    DBInterface m_dbInterface;
-    int m_currentMovieID;
+
+    DBInterface    m_dbInterface;
+    int            m_currentMovieID;
+
+
+private slots:
+    void addMovie();
+    void updateActorList(int movieID);
 
 
 };
