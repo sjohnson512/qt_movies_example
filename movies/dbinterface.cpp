@@ -58,8 +58,6 @@ QStringList DBInterface::getActorsForMovie(int movieID)
         qDebug() << "Sql error in getActorsForMovie:" << query.lastError().text();
     }
 
-    qDebug() << "actorList: "  << nameList;
-
     return nameList;
 }
 

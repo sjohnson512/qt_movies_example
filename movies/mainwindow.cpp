@@ -18,23 +18,47 @@ MainWindow::MainWindow(QWidget *parent) :
     // Populate genre combo box with possible values selected from database
     QStringList genreNames = m_dbInterface.getGenres();
     foreach(QString name, genreNames)
-        ui->comboGenre->addItem(name);
+        ui->comboGenre->addItem(name); 
 
     // Set up the movie TreeWidget
     ui->treeMovies->setColumnCount(6);
     ui->treeMovies->hideColumn(5);
     ui->treeMovies->setHeaderLabels(QStringList() << "Title" << "Year" << "Genre" << "Rating" << "Actors");
 
+    // Set the MainWindow size and position
+    QSettings settings;
+    this->restoreGeometry(settings.value(MAINWINDOW_GEOMETRY,"").toByteArray());
+
+    // Set TreeWidget column widths
+    ui->treeMovies->setColumnWidth(0, settings.value(TREE_WIDTH_0,"144").toInt());
+    ui->treeMovies->setColumnWidth(1, settings.value(TREE_WIDTH_1,"45").toInt());
+    ui->treeMovies->setColumnWidth(2, settings.value(TREE_WIDTH_2,"61").toInt());
+    ui->treeMovies->setColumnWidth(3, settings.value(TREE_WIDTH_3,"50").toInt());
+    ui->treeMovies->setColumnWidth(4, settings.value(TREE_WIDTH_4,"300").toInt());
+
+    // Set Splitter position
+    ui->splitter->restoreState(settings.value(SPLITTER_POSITION,"").toByteArray());
+
     // Update movie treeWidget
     updateMovies();
-
-    // Update actor listWidget
-    int movie_id = 1;
-    updateActors(movie_id);
 }
 
 MainWindow::~MainWindow()
 {
+    // Save window size and position
+    QSettings settings;
+    settings.setValue(MAINWINDOW_GEOMETRY, this->saveGeometry());
+
+    // Save TreeWidget column widths
+    settings.setValue(TREE_WIDTH_0,ui->treeMovies->columnWidth(0));
+    settings.setValue(TREE_WIDTH_1,ui->treeMovies->columnWidth(1));
+    settings.setValue(TREE_WIDTH_2,ui->treeMovies->columnWidth(2));
+    settings.setValue(TREE_WIDTH_3,ui->treeMovies->columnWidth(3));
+    settings.setValue(TREE_WIDTH_4,ui->treeMovies->columnWidth(4));
+
+    // Save splitter position
+    settings.setValue(SPLITTER_POSITION, ui->splitter->saveState());
+
     delete ui;
 }
 
@@ -94,5 +118,4 @@ void MainWindow::updateMovieDetails(QTreeWidgetItem* currentItem, QTreeWidgetIte
 
     int movieId = currentItem->data(MOVIE_ID_COL, Qt::DisplayRole).toInt();
     updateActors(movieId);
-
 }

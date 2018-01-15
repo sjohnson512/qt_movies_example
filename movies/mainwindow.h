@@ -31,6 +31,14 @@ private:
     const int MOVIE_ACTORS_COL = 4;
     const int MOVIE_ID_COL     = 5;
 
+    const QString TREE_WIDTH_0 = "tree_width_0";
+    const QString TREE_WIDTH_1 = "tree_width_1";
+    const QString TREE_WIDTH_2 = "tree_width_2";
+    const QString TREE_WIDTH_3 = "tree_width_3";
+    const QString TREE_WIDTH_4 = "tree_width_4";
+
+    const QString SPLITTER_POSITION = "splitter_position";
+    const QString MAINWINDOW_GEOMETRY = "mainwindow_geometry";
 
 private slots:
     void addMovie();
