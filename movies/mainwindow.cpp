@@ -18,9 +18,16 @@ MainWindow::MainWindow(QWidget *parent) :
     foreach(QString name, genreNames)
         ui->comboGenre->addItem(name);
 
-    // Update actor list
+    // Set up the movie TreeWidget
+    ui->treeMovies->setColumnCount(5);
+    ui->treeMovies->setHeaderLabels(QStringList() << "Title" << "Year" << "Genre" << "Rating" << "Actors");
+
+    // Update movie treeWidget
+    updateMovies();
+
+    // Update actor listWidget
     int movie_id = 1;
-    updateActorList(movie_id);
+    updateActors(movie_id);
 }
 
 MainWindow::~MainWindow()
@@ -39,7 +46,7 @@ void MainWindow::addMovie()
     m_dbInterface.insertMovie(title,actorListID, genreID, year, rating);
 }
 
-void MainWindow::updateActorList(int movieID)
+void MainWindow::updateActors(int movieID)
 {
     ui->listActors->clear();
     QStringList actorList = m_dbInterface.getActorsForMovie(movieID);
@@ -47,5 +54,25 @@ void MainWindow::updateActorList(int movieID)
     foreach(QString name, actorList)
     {
         ui->listActors->addItem(name);
+    }
+}
+
+void MainWindow::updateMovies()
+{
+    QList<MovieData> movieList = m_dbInterface.getMovies();
+
+    foreach(MovieData movieData, movieList)
+    {
+        QTreeWidgetItem *movieItem = new QTreeWidgetItem(ui->treeMovies);
+        movieItem->setText(0, movieData.title);
+        movieItem->setText(1, QString::number(movieData.year));
+        movieItem->setText(2, movieData.genre);
+        movieItem->setText(3, QString::number(movieData.rating));
+
+        int movieId= movieData.id;
+        QStringList actorList = m_dbInterface.getActorsForMovie(movieId);
+        QString actors = actorList.join(", ");
+        movieItem->setText(4, actors);
+
     }
 }

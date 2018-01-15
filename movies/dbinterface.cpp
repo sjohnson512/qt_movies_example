@@ -55,12 +55,47 @@ QStringList DBInterface::getActorsForMovie(int movieID)
     }
     else
     {
-        qDebug() << "Sql error:" << query.lastError().text();
+        qDebug() << "Sql error in getActorsForMovie:" << query.lastError().text();
     }
 
     qDebug() << "actorList: "  << nameList;
 
     return nameList;
+}
+
+QList<MovieData> DBInterface::getMovies()
+{
+    QSqlQuery query("SELECT movie.id as id, genre.name as genre, genre_id, title, year, rating "
+                    "FROM movie "
+                    "INNER JOIN genre ON movie.genre_id = genre.id");
+
+    QList<MovieData> movieList;
+    if (query.exec())
+    {
+        int idId = query.record().indexOf("id");
+        int idGenre = query.record().indexOf("genre");
+        int idGenreId = query.record().indexOf("genre_id");
+        int idTitle = query.record().indexOf("title");
+        int idYear = query.record().indexOf("year");
+        int idRating = query.record().indexOf("rating");
+        while (query.next())
+        {
+           MovieData movieData;
+           movieData.id = query.value(idId).toInt();
+           movieData.genre = query.value(idGenre).toString();
+           movieData.genreId = query.value(idGenreId).toInt();
+           movieData.title = query.value(idTitle).toString();
+           movieData.year = query.value(idYear).toInt();
+           movieData.rating = query.value(idRating).toDouble();
+           movieList << movieData;
+        }
+    }
+    else
+    {
+        qDebug() << "Sql error in getMovies:" << query.lastError().text();
+    }
+
+    return movieList;
 }
 
 int DBInterface::insertMovie(const QString& title, int actorListID, int genreID, int year, double rating)

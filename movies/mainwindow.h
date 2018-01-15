@@ -26,7 +26,8 @@ private:
 
 private slots:
     void addMovie();
-    void updateActorList(int movieID);
+    void updateMovies();
+    void updateActors(int movieID);
 
 
 };

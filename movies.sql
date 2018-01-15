@@ -50,8 +50,11 @@ INSERT INTO cast_member(movie_id, actor_id)
 VALUES
 	(1,1),
 	(1,2),
-	(1,6);
+	(1,6),
+	(2,5),
+	(2,3);
 
 INSERT INTO movie (genre_id, title, year, rating)
 VALUES	
-	(2, 'My Madeup Movie', 2018, 4.7);
+	(2, 'My Madeup Movie', 2018, 4.7),
+	(3, 'A Really Good Movie', 2017, 4.9);
