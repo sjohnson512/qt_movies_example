@@ -6,7 +6,7 @@ DBInterface::DBInterface()
    QString applicationDir = QCoreApplication::applicationDirPath();
 #if defined(WIN32)
    QString dbPath = QDir::cleanPath(applicationDir + "../../../movies.db");
-#elif
+#else
    QString dbPath = QDir::cleanPath(applicationDir + "../../../../../movies.db");
 #endif
 
