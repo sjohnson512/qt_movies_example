@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionNew, SIGNAL(triggered()), this, SLOT(addMovie()));
     connect(ui->btnDelete, SIGNAL(clicked()), this, SLOT(deleteMovie()));
     connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(deleteMovie()));
+    connect(ui->btnSearchPrevious, SIGNAL(clicked()), this, SLOT(searchPrevious()));
+    connect(ui->btnSearchNext, SIGNAL(clicked()), this, SLOT(searchNext()));
     connect(ui->treeMovies, SIGNAL(itemSelectionChanged()), this, SLOT(refreshMovieDetails()));
     connect(ui->lineTitle, SIGNAL(editingFinished()), this, SLOT(updateMovie()));
     connect(ui->comboGenre, SIGNAL(currentTextChanged(QString)), this, SLOT(updateMovie()));
@@ -25,6 +27,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QStringList genreNames = m_dbInterface.getGenres();
     foreach(QString name, genreNames)
         ui->comboGenre->addItem(name); 
+
+    // Populate search field combo box with possible values
+    // Note: these values must be added in numerical order
+    ui->comboSearchField->addItem("Title");  // MOVIE_TITLE_COL  = 0
+    ui->comboSearchField->addItem("Year");   // MOVIE_YEAR_COL   = 1
+    ui->comboSearchField->addItem("Genre");  // MOVIE_GENRE_COL  = 2
+    ui->comboSearchField->addItem("Rating"); // MOVIE_RATING_COL = 3
+    ui->comboSearchField->addItem("Actors"); // MOVIE_ACTORS_COL = 4
 
     // Set up the movie TreeWidget
     ui->treeMovies->setColumnCount(6);
@@ -191,3 +201,73 @@ void MainWindow::deleteMovie()
     // Remove the tree item widget from the movie tree
     delete currentMovieItem;
 }
+
+
+void MainWindow::searchPrevious()
+{
+    bool searchDown = false;
+    search(searchDown);
+}
+
+
+void MainWindow::searchNext()
+{
+    bool searchDown = true;
+    search(searchDown);
+
+}
+
+void MainWindow::search(bool searchDown)
+{
+    QString searchTerm = ui->lineSearchTerm->text();
+    QTreeWidgetItem *currentItem = ui->treeMovies->currentItem();
+    QTreeWidgetItem *startItem = currentItem;
+    currentItem = getNextItem(currentItem, searchDown);
+    int columnNumber = ui->comboSearchField->currentIndex();
+
+    bool itemFound = false;
+    while(!itemFound && currentItem != startItem)
+    {
+        QString fieldContents = currentItem->data(columnNumber, Qt::DisplayRole).toString();
+        if (fieldContents.contains(searchTerm))
+        {
+            itemFound = true;
+        }
+        if (!itemFound)
+        {
+            currentItem = getNextItem(currentItem, searchDown);
+        }
+    }
+
+    if (itemFound)
+    {
+        ui->treeMovies->setCurrentItem(currentItem);
+    }
+}
+
+QTreeWidgetItem* MainWindow::getNextItem(QTreeWidgetItem* currentItem, bool searchDown)
+{
+    QTreeWidgetItem *nextItem = NULL;
+    if (searchDown)
+    {
+        nextItem = ui->treeMovies->itemBelow(currentItem);
+        if (nextItem == NULL)
+        {
+            // wrap around to the top of the list
+            nextItem = ui->treeMovies->topLevelItem(0);
+        }
+    }
+    else
+    {
+        nextItem = ui->treeMovies->itemAbove(currentItem);
+        if (nextItem == NULL)
+        {
+            // wrap around to the bottom of the list
+            int numItems = ui->treeMovies->topLevelItemCount();
+            nextItem = ui->treeMovies->topLevelItem(numItems-1);
+        }
+    }
+
+    return nextItem;
+}
+

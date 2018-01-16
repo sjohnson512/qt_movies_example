@@ -41,16 +41,24 @@ private:
     const QString MAINWINDOW_GEOMETRY = "mainwindow_geometry";
 
 private slots:
-    void addMovie();
+
+    // Screen updates
     void refreshMovies();
     void refreshMovieDetails();
     void refreshActorsList(int movieID);
 
+    // Edit data
+    void addMovie();
     void updateMovie();
     void deleteMovie();
 
+    // Search
+    void searchPrevious();
+    void searchNext();
 
-
+private:
+    void search(bool searchDown);
+    QTreeWidgetItem* getNextItem(QTreeWidgetItem* currentItem, bool searchDown);
 };
 
 #endif // MAINWINDOW_H

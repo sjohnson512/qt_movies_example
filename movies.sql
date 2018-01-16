@@ -46,7 +46,7 @@ VALUES
     ('Emma Stone'),
     ('Brie Larson'),
     ('Julianne Moore'),
-    ('Cale Blanchett'),
+    ('Cate Blanchett'),
     ('Jennifer Lawrence');
 	
 INSERT INTO cast_member(movie_id, actor_id)
@@ -55,9 +55,17 @@ VALUES
 	(1,2),
 	(1,6),
 	(2,5),
-	(2,3);
+	(2,3),
+	(3,4),
+	(3,7),
+	(3,8),
+	(3,9),
+	(4,1),
+	(4,9);
 
 INSERT INTO movie (genre_id, title, year, rating)
 VALUES	
 	(2, 'My Madeup Movie', 2018, 4.7),
-	(3, 'A Really Good Movie', 2017, 4.9);
+	(3, 'A Really Good Movie', 2017, 3.0),
+	(4, 'Another Movie', 2012, 3.0),
+	(3, 'Yet Another Movie', 2012, 4.9);
