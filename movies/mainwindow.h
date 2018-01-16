@@ -17,6 +17,20 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+
+    // Screen updates
+    void refreshMovies();
+    void refreshMovieDetails();
+
+    // Edit data
+    void addMovie();
+    void updateMovie();
+    void deleteMovie();
+
+    // Search
+    void searchPrevious();
+    void searchNext();
 
 private:
     Ui::MainWindow *ui;
@@ -40,22 +54,6 @@ private:
     const QString SPLITTER_POSITION = "splitter_position";
     const QString MAINWINDOW_GEOMETRY = "mainwindow_geometry";
 
-private slots:
-
-    // Screen updates
-    void refreshMovies();
-    void refreshMovieDetails();
-
-    // Edit data
-    void addMovie();
-    void updateMovie();
-    void deleteMovie();
-
-    // Search
-    void searchPrevious();
-    void searchNext();
-
-private:
     void search(bool searchDown);
     QTreeWidgetItem* getNextItem(QTreeWidgetItem* currentItem, bool searchDown);
 };

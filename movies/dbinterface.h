@@ -19,11 +19,20 @@ class DBInterface
 public:
     DBInterface();
 
-    QStringList      getGenres();
+    // Returns a QStringList containg contents of the genres table
+    QStringList getGenres();
+
+    // Returns all movie details for all movies in the movie table
     QList<MovieData> getMovies();
-    void             updateMovie(int movieId, const QString &title, int genreId, int year, double rating, const QString &actors);
-    void             deleteMovie(int movieId);
-    int              insertMovie(const QString& title, int genreID, int year, double rating);
+
+    // Update the contents of a movie
+    void updateMovie(int movieId, const QString &title, int genreId, int year, double rating, const QString &actors);
+
+    // Delete a movie
+    void deleteMovie(int movieId);
+
+    // Insert a movie
+    int insertMovie(const QString& title, int genreID, int year, double rating);
 
 private:
     QSqlDatabase m_database;

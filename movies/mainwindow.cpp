@@ -109,10 +109,11 @@ void MainWindow::addMovie()
 
 void MainWindow::refreshMovies()
 {
+    // Clear the movies tree widget
     ui->treeMovies->clear();
 
+    // Fetch movie details and populate the tree widget
     QList<MovieData> movieList = m_dbInterface.getMovies();
-
     foreach(MovieData movieData, movieList)
     {
         QTreeWidgetItem *movieItem = new QTreeWidgetItem(ui->treeMovies);
@@ -127,16 +128,19 @@ void MainWindow::refreshMovies()
 
 void MainWindow::refreshMovieDetails()
 {
-
+    // Get the current item
     QTreeWidgetItem* currentItem = ui->treeMovies->currentItem();
 
+    // Clear detail controls
     ui->lineTitle->clear();
     ui->spinboxYear->clear();
     ui->doubleSpinRating->clear();
+    ui->lineActors->clear();
 
     if (currentItem == NULL)
         return;
 
+    // Populate detail controls
     ui->lineTitle->setText(currentItem->data(MOVIE_TITLE_COL, Qt::DisplayRole).toString());
     ui->comboGenre->blockSignals(true);
     ui->comboGenre->setCurrentText(currentItem->data(MOVIE_GENRE_COL, Qt::DisplayRole).toString());
@@ -193,13 +197,14 @@ void MainWindow::deleteMovie()
 
 void MainWindow::searchPrevious()
 {
+    // Search up the widget
     bool searchDown = false;
     search(searchDown);
 }
 
-
 void MainWindow::searchNext()
 {
+    // Search down the widget
     bool searchDown = true;
     search(searchDown);
 
@@ -207,12 +212,14 @@ void MainWindow::searchNext()
 
 void MainWindow::search(bool searchDown)
 {
+    // Get starting values
     QString searchTerm = ui->lineSearchTerm->text();
     QTreeWidgetItem *currentItem = ui->treeMovies->currentItem();
     QTreeWidgetItem *startItem = currentItem;
     currentItem = getNextItem(currentItem, searchDown);
     int columnNumber = ui->comboSearchField->currentIndex();
 
+    // Walk the widget until we find an item that meets the search criteria
     bool itemFound = false;
     while(!itemFound && currentItem != startItem)
     {
@@ -227,6 +234,7 @@ void MainWindow::search(bool searchDown)
         }
     }
 
+    // If we found an item, select it
     if (itemFound)
     {
         ui->treeMovies->setCurrentItem(currentItem);

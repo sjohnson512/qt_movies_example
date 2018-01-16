@@ -91,13 +91,13 @@ void DBInterface::updateMovie(int movieId, const QString &title, int genreId,
 {
     QSqlQuery query;
     query.prepare("UPDATE movie "
-                    "SET "
+                  "SET "
                     "title = :title, "
                     "genre_id = :genreId, "
                     "year = :year, "
                     "rating = :rating, "
                     "actors = :actors "
-                    "where id = :movieID");
+                  "WHERE id = :movieID");
     query.bindValue(":title", title);
     query.bindValue(":genreId", genreId);
     query.bindValue(":year", year);
