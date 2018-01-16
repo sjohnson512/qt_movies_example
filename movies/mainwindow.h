@@ -45,7 +45,6 @@ private slots:
     // Screen updates
     void refreshMovies();
     void refreshMovieDetails();
-    void refreshActorsList(int movieID);
 
     // Edit data
     void addMovie();

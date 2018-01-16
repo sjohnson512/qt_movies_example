@@ -11,6 +11,7 @@ struct MovieData
     QString title;
     int     year;
     double  rating;
+    QString actors;
 };
 
 class DBInterface
@@ -19,9 +20,8 @@ public:
     DBInterface();
 
     QStringList      getGenres();
-    QStringList      getActorsForMovie(int movieID);
     QList<MovieData> getMovies();
-    void             updateMovie(int movieId, const QString &title, int genreId, int year, double rating);
+    void             updateMovie(int movieId, const QString &title, int genreId, int year, double rating, const QString &actors);
     void             deleteMovie(int movieId);
     int              insertMovie(const QString& title, int genreID, int year, double rating);
 

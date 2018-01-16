@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->lineTitle, SIGNAL(editingFinished()), this, SLOT(updateMovie()));
     connect(ui->comboGenre, SIGNAL(currentTextChanged(QString)), this, SLOT(updateMovie()));
     connect(ui->spinboxYear, SIGNAL(editingFinished()), this, SLOT(updateMovie()));
-    connect(ui->doubleSpinRating ,SIGNAL(editingFinished()), this, SLOT(updateMovie()));
+    connect(ui->doubleSpinRating, SIGNAL(editingFinished()), this, SLOT(updateMovie()));
+    connect(ui->lineActors, SIGNAL(editingFinished()), this, SLOT(updateMovie()));
 
     // Populate genre combo box with possible values selected from database
     QStringList genreNames = m_dbInterface.getGenres();
@@ -106,17 +107,6 @@ void MainWindow::addMovie()
     ui->treeMovies->setCurrentItem(ui->treeMovies->topLevelItem(numItems-1));
 }
 
-void MainWindow::refreshActorsList(int movieID)
-{
-    ui->listActors->clear();
-    QStringList actorList = m_dbInterface.getActorsForMovie(movieID);
-
-    foreach(QString name, actorList)
-    {
-        ui->listActors->addItem(name);
-    }
-}
-
 void MainWindow::refreshMovies()
 {
     ui->treeMovies->clear();
@@ -131,11 +121,7 @@ void MainWindow::refreshMovies()
         movieItem->setText(MOVIE_YEAR_COL, QString::number(movieData.year));
         movieItem->setText(MOVIE_GENRE_COL, movieData.genre);
         movieItem->setText(MOVIE_RATING_COL, QString::number(movieData.rating));
-
-        int movieId= movieData.id;
-        QStringList actorList = m_dbInterface.getActorsForMovie(movieId);
-        QString actors = actorList.join(", ");
-        movieItem->setText(MOVIE_ACTORS_COL, actors);
+        movieItem->setText(MOVIE_ACTORS_COL, movieData.actors);
     }
 }
 
@@ -157,9 +143,9 @@ void MainWindow::refreshMovieDetails()
     ui->comboGenre->blockSignals(false);
     ui->spinboxYear->setValue(currentItem->data(MOVIE_YEAR_COL, Qt::DisplayRole).toInt());
     ui->doubleSpinRating->setValue(currentItem->data(MOVIE_RATING_COL, Qt::DisplayRole).toDouble());
+    ui->lineActors->setText(currentItem->data(MOVIE_ACTORS_COL, Qt::DisplayRole).toString());
 
-    int movieId = currentItem->data(MOVIE_ID_COL, Qt::DisplayRole).toInt();
-    refreshActorsList(movieId);
+
 }
 
 void MainWindow::updateMovie()
@@ -176,15 +162,17 @@ void MainWindow::updateMovie()
     QString genre = ui->comboGenre->currentText();
     int year = ui->spinboxYear->value();
     double rating = ui->doubleSpinRating->value();
+    QString actors = ui->lineActors->text();
 
     // Update the database
-    m_dbInterface.updateMovie(movieId, title, genreId, year, rating);
+    m_dbInterface.updateMovie(movieId, title, genreId, year, rating, actors);
 
     // Update the movie tree model
     currentMovieItem->setData(MOVIE_TITLE_COL,Qt::DisplayRole, title);
     currentMovieItem->setData(MOVIE_GENRE_COL,Qt::DisplayRole, genre);
     currentMovieItem->setData(MOVIE_YEAR_COL,Qt::DisplayRole, year);
     currentMovieItem->setData(MOVIE_RATING_COL,Qt::DisplayRole, rating);
+    currentMovieItem->setData(MOVIE_ACTORS_COL,Qt::DisplayRole, actors);
 }
 
 void MainWindow::deleteMovie()

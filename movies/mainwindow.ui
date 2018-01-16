@@ -210,7 +210,7 @@
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QListWidget" name="listActors"/>
+         <widget class="QLineEdit" name="lineActors"/>
         </item>
        </layout>
       </widget>
