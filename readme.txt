@@ -1,4 +1,4 @@
-This project creates a Qt application that store movie data in a sqlite database.
+This project creates a Qt application that stores movie data in a sqlite database.
 
 Build Instructions
 1) Install Qt (tested 5.9.3 on Windows10, 5.9.4 on Mac)
