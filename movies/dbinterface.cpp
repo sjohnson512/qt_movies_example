@@ -129,3 +129,21 @@ void DBInterface::updateMovie(int movieId, const QString &title, int genreId, in
     if (!query.exec())
         qDebug() << query.lastError().text();
 }
+
+void DBInterface::deleteMovie(int movieId)
+{
+    // Delete the row in movie
+    QSqlQuery movieQuery;
+    movieQuery.prepare("DELETE FROM movie WHERE id = :movieId");
+    movieQuery.bindValue(":movieId", movieId);
+    if (!movieQuery.exec())
+        qDebug() << movieQuery.lastError().text();
+
+    // Also delete cast_members for this movie
+    QSqlQuery castMemberQuery;
+    castMemberQuery.prepare("DELETE FROM cast_member WHERE movie_id = :movieId");
+    castMemberQuery.bindValue(":movieId", movieId);
+    if (!castMemberQuery.exec())
+        qDebug() << castMemberQuery.lastError().text();
+
+}

@@ -33,6 +33,14 @@
           <property name="autoScroll">
            <bool>false</bool>
           </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string notr="true">1</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item>
@@ -159,6 +167,14 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuMovies">
+    <property name="title">
+     <string>Movies</string>
+    </property>
+    <addaction name="actionNew"/>
+    <addaction name="actionDelete"/>
+   </widget>
+   <addaction name="menuMovies"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -169,6 +185,22 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

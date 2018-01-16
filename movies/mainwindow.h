@@ -47,6 +47,7 @@ private slots:
     void refreshActorsList(int movieID);
 
     void updateMovie();
+    void deleteMovie();
 
 
 

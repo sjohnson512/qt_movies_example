@@ -22,6 +22,7 @@ public:
     QStringList      getActorsForMovie(int movieID);
     QList<MovieData> getMovies();
     void             updateMovie(int movieId, const QString &title, int genreId, int year, double rating);
+    void             deleteMovie(int movieId);
     int              insertMovie(const QString& title, int genreID, int year, double rating);
 
 private:

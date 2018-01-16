@@ -12,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Connect control signals to slots
     connect(ui->btnNew, SIGNAL(clicked()), this, SLOT(addMovie()));
+    connect(ui->actionNew, SIGNAL(triggered()), this, SLOT(addMovie()));
+    connect(ui->btnDelete, SIGNAL(clicked()), this, SLOT(deleteMovie()));
+    connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(deleteMovie()));
     connect(ui->treeMovies, SIGNAL(itemSelectionChanged()), this, SLOT(refreshMovieDetails()));
     connect(ui->lineTitle, SIGNAL(editingFinished()), this, SLOT(updateMovie()));
     connect(ui->comboGenre, SIGNAL(currentTextChanged(QString)), this, SLOT(updateMovie()));
@@ -172,4 +175,19 @@ void MainWindow::updateMovie()
     currentMovieItem->setData(MOVIE_GENRE_COL,Qt::DisplayRole, genre);
     currentMovieItem->setData(MOVIE_YEAR_COL,Qt::DisplayRole, year);
     currentMovieItem->setData(MOVIE_RATING_COL,Qt::DisplayRole, rating);
+}
+
+void MainWindow::deleteMovie()
+{
+    // Get the current movie ID
+    QTreeWidgetItem *currentMovieItem = ui->treeMovies->currentItem();
+    if (currentMovieItem==NULL)
+        return;
+    int movieId = currentMovieItem->data(MOVIE_ID_COL, Qt::DisplayRole).toInt();
+
+    // Delete the movie from the database
+    m_dbInterface.deleteMovie(movieId);
+
+    // Remove the tree item widget from the movie tree
+    delete currentMovieItem;
 }
