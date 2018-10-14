@@ -5,7 +5,7 @@ Build Instructions
 2) Install sqlite3 (tested 3.21.0 on Windows10, 3.19.3 on Mac)
 3) Create a database file: sqlite3 movies.db < movies.sql
 4) Open movies.pro in QtCreator
-5) Configure the project withe desired kits
+5) Configure the project with desired kits
 6) Build->Build All
 
 Project contents:
